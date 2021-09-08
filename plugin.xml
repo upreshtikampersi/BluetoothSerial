@@ -9,8 +9,8 @@
     <description>Bluetooth Serial Communication Plugin</description>
     <license>Apache 2.0</license>
     <keywords>bluetooth, BLE, arduino</keywords>
-    <repo>https://github.com/don/BluetoothSerial.git</repo>
-    <issue>https://github.com/don/BluetoothSerial/issues</issue>
+    <repo>https://github.com/akshaypuri1989/BluetoothSerial.git</repo>
+    <issue>https://github.com/akshaypuri1989/BluetoothSerial/issues</issue>
 
     <js-module src="www/bluetoothSerial.js" name="bluetoothSerial">
         <clobbers target="window.bluetoothSerial" />
