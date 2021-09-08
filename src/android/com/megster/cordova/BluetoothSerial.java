@@ -331,15 +331,15 @@ public class BluetoothSerial extends CordovaPlugin {
         };
 
         Activity activity = cordova.getActivity();
-        activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-        activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
-        activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
+        this.registerReceiver(discoverReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        this.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+        this.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
         if (bluetoothAdapter.isDiscovering()){
             LOG.d(TAG, "###discoverUnpairedDevices isDiscovering true###");
             bluetoothAdapter.cancelDiscovery();
         }
         bluetoothAdapter.startDiscovery();
-        LOG.d(TAG, "###discoverUnpairedDevices discovery started###");
+        LOG.d(TAG, "###discoverUnpairedDevices discovery started 111111###");
     }
 
     private JSONObject deviceToJSON(BluetoothDevice device) throws JSONException {
