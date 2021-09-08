@@ -213,9 +213,13 @@ public class BluetoothSerial extends CordovaPlugin {
 
         } else if (action.equals(DISCOVER_UNPAIRED)) {
 
+            LOG.d(TAG, "###DISCOVER_UNPAIRED###");
+            
             if (cordova.hasPermission(ACCESS_COARSE_LOCATION)) {
+                LOG.d(TAG, "###DISCOVER_UNPAIRED_hasPermission###");
                 discoverUnpairedDevices(callbackContext);
             } else {
+                LOG.d(TAG, "###DISCOVER_UNPAIRED_doesNotHavePermission###");
                 permissionCallback = callbackContext;
                 cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_COARSE_LOCATION);
             }
@@ -290,6 +294,7 @@ public class BluetoothSerial extends CordovaPlugin {
 
     private void discoverUnpairedDevices(final CallbackContext callbackContext) throws JSONException {
 
+        LOG.d(TAG, "###discoverUnpairedDevices function started###");
         final CallbackContext ddc = deviceDiscoveredCallback;
 
         final BroadcastReceiver discoverReceiver = new BroadcastReceiver() {
@@ -298,8 +303,11 @@ public class BluetoothSerial extends CordovaPlugin {
 
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
+                LOG.d(TAG, "###onReceive action =" + action);
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    LOG.d(TAG, "###onReceive if action =" + action);
+                    LOG.d(TAG, "###onReceive if device =" + device);
                     try {
                     	JSONObject o = deviceToJSON(device);
                         unpairedDevices.put(o);
@@ -313,6 +321,8 @@ public class BluetoothSerial extends CordovaPlugin {
                         Log.e(TAG, "Problem converting device to JSON", e);
                     }
                 } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                    LOG.d(TAG, "###onReceive else if action =" + action);
+                    LOG.d(TAG, "###onReceive unpairedDevices =" + unpairedDevices);
                     callbackContext.success(unpairedDevices);
                     cordova.getActivity().unregisterReceiver(this);
                 }
@@ -323,6 +333,7 @@ public class BluetoothSerial extends CordovaPlugin {
         activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
         bluetoothAdapter.startDiscovery();
+        LOG.d(TAG, "###discoverUnpairedDevices discovery started###");
     }
 
     private JSONObject deviceToJSON(BluetoothDevice device) throws JSONException {
