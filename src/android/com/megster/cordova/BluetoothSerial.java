@@ -85,7 +85,7 @@ public class BluetoothSerial extends CordovaPlugin {
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 
     // Android 23 requires user to explicitly grant permission for location to discover unpaired
-    private static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int CHECK_PERMISSIONS_REQ_CODE = 2;
     private CallbackContext permissionCallback;
 
@@ -215,13 +215,13 @@ public class BluetoothSerial extends CordovaPlugin {
 
             LOG.d(TAG, "###DISCOVER_UNPAIRED###");
             
-            if (cordova.hasPermission(ACCESS_COARSE_LOCATION)) {
+            if (cordova.hasPermission(ACCESS_FINE_LOCATION)) {
                 LOG.d(TAG, "###DISCOVER_UNPAIRED_hasPermission###");
                 discoverUnpairedDevices(callbackContext);
             } else {
                 LOG.d(TAG, "###DISCOVER_UNPAIRED_doesNotHavePermission###");
                 permissionCallback = callbackContext;
-                cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_COARSE_LOCATION);
+                cordova.requestPermission(this, CHECK_PERMISSIONS_REQ_CODE, ACCESS_FINE_LOCATION);
             }
 
         } else if (action.equals(SET_DEVICE_DISCOVERED_LISTENER)) {
