@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/don/BluetoothSerial.git"
+    "url": "git+https://github.com/akshaypuri1989/BluetoothSerial.git"
   },
   "keywords": [
     "cordova",
@@ -26,7 +26,7 @@
   "author": "Don Coleman <don.coleman@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/don/BluetoothSerial/issues"
+    "url": "https://github.com/akshaypuri1989/BluetoothSerial/issues"
   },
-  "homepage": "https://github.com/don/BluetoothSerial#readme"
+  "homepage": "https://github.com/akshaypuri1989/BluetoothSerial#readme"
 }
