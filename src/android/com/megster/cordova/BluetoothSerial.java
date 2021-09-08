@@ -301,6 +301,7 @@ public class BluetoothSerial extends CordovaPlugin {
 
             private JSONArray unpairedDevices = new JSONArray();
 
+            @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
                 LOG.d(TAG, "###onReceive action =" + action);
