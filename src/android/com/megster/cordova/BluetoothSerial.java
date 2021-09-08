@@ -333,6 +333,7 @@ public class BluetoothSerial extends CordovaPlugin {
         Activity activity = cordova.getActivity();
         activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+        activity.registerReceiver(discoverReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
         if (bluetoothAdapter.isDiscovering()){
             LOG.d(TAG, "###discoverUnpairedDevices isDiscovering true###");
             bluetoothAdapter.cancelDiscovery();
