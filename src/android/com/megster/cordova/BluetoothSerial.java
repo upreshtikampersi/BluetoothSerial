@@ -375,8 +375,9 @@ private static final long SCAN_PERIOD = 10000;
             bluetoothLeScanner.stopScan(leScanCallback);
             LOG.d(TAG, "###bluetoothLeScanner.stopScan###");
         }
-        
-        private ScanCallback leScanCallback = new ScanCallback() {
+    }
+    
+     private ScanCallback leScanCallback = new ScanCallback() {
      
                 private JSONArray unpairedDevices = new JSONArray();
             
@@ -396,7 +397,6 @@ private static final long SCAN_PERIOD = 10000;
                     }
                 }
         };
-    }
     
     
     private JSONObject deviceToJSON(BluetoothDevice device) throws JSONException {
