@@ -389,18 +389,30 @@ public class BluetoothSerial extends CordovaPlugin {
                 public void onScanResult(int callbackType, ScanResult result) {
                     try {
                         LOG.d(TAG, "###onScanResult###");
-                    	JSONObject o = deviceToJSON(result.getDevice());
-                        ble_unpairedDevices.put(o);
-                        if (ble_ddc != null) {
-                            PluginResult res = new PluginResult(PluginResult.Status.OK, o);
-                            res.setKeepCallback(true);
-                            ble_ddc.sendPluginResult(res);
-                        }
-                        ble_ddc.success(ble_unpairedDevices);
                     } catch (JSONException e) {
                         // This shouldn't happen, log and ignore
                         Log.e(TAG, "Problem converting device to JSON", e);
                     }
+                }
+         
+                @Override
+                public void onBatchScanResults(List<ScanResult> results) {
+                    for (ScanResult result : results) {
+                           try {
+                                LOG.d(TAG, "###onBatchScanResults###");
+                                JSONObject o = deviceToJSON(result.getDevice());
+                                ble_unpairedDevices.put(o);
+                                if (ble_ddc != null) {
+                                    PluginResult res = new PluginResult(PluginResult.Status.OK, o);
+                                    res.setKeepCallback(true);
+                                    ble_ddc.sendPluginResult(res);
+                                }
+                            } catch (JSONException e) {
+                                // This shouldn't happen, log and ignore
+                                Log.e(TAG, "Problem converting device to JSON", e);
+                            }
+                    }
+                    ble_ddc.success(ble_unpairedDevices);
                 }
         };
     
