@@ -383,7 +383,7 @@ public class BluetoothSerial extends CordovaPlugin {
         }
     }
     
-     private ScanCallback leScanCallback = new ScanCallback() {
+     final ScanCallback leScanCallback = new ScanCallback() {
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
