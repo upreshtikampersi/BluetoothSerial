@@ -28,6 +28,9 @@ import java.util.Set;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.os.Handler;
 
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
+
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
  */
