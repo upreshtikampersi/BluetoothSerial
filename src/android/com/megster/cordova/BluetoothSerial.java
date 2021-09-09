@@ -359,7 +359,7 @@ private static final long SCAN_PERIOD = 10000;
     private void discoverUnpairedDevices(final CallbackContext callbackContext) throws JSONException {
 
         LOG.d(TAG, "###discoverUnpairedDevicesNEW function started###");
-        final CallbackContext ddc = deviceDiscoveredCallback;
+        
         if (!scanning) {
             // Stops scanning after a predefined scan period.
             handler.postDelayed(new Runnable() {
@@ -383,6 +383,7 @@ private static final long SCAN_PERIOD = 10000;
      private ScanCallback leScanCallback = new ScanCallback() {
      
                 private JSONArray unpairedDevices = new JSONArray();
+                final CallbackContext ddc = deviceDiscoveredCallback;
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
