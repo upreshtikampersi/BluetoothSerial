@@ -95,7 +95,7 @@ public class BluetoothSerial extends CordovaPlugin {
     private static final int CHECK_PERMISSIONS_REQ_CODE = 2;
     private CallbackContext permissionCallback;
     
-    private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+    private BluetoothLeScanner bluetoothLeScanner;
     private boolean scanning;
     private Handler handler = new Handler();
 
@@ -113,6 +113,10 @@ private static final long SCAN_PERIOD = 10000;
 
         if (bluetoothSerialService == null) {
             bluetoothSerialService = new BluetoothSerialService(mHandler);
+        }
+        
+        if (bluetoothLeScanner == null) {
+            bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
         }
 
         boolean validAction = true;
