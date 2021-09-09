@@ -32,6 +32,10 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import java.util.List;
 
+import android.bluetooth.le.ScanSettings;
+import android.bluetooth.le.ScanFilter;
+import java.util.ArrayList;
+
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
  */
@@ -373,9 +377,16 @@ public class BluetoothSerial extends CordovaPlugin {
         if (!scanning) {
             scanning = false;
             bluetoothLeScanner.stopScan(leScanCallback);
+            
+            ScanFilter filter = new ScanFilter.Builder().setDeviceName(null).build();
+
+            ArrayList<ScanFilter> filters = new ArrayList<ScanFilter>();
+            filters.add(filter);
+
+            ScanSettings settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_POWER).setReportDelay(10).build();
 
             scanning = true;
-            bluetoothLeScanner.startScan(leScanCallback);
+            bluetoothLeScanner.startScan(filters, settings, leScanCallback);
             LOG.d(TAG, "###bluetoothLeScanner.startScan###");
         } else {
             scanning = false;
