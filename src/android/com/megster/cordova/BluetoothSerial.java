@@ -25,6 +25,9 @@ import org.json.JSONObject;
 
 import java.util.Set;
 
+import android.bluetooth.le.BluetoothLeScanner;
+import android.os.Handler;
+
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
  */
@@ -88,6 +91,13 @@ public class BluetoothSerial extends CordovaPlugin {
     private static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final int CHECK_PERMISSIONS_REQ_CODE = 2;
     private CallbackContext permissionCallback;
+    
+    private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+    private boolean scanning;
+    private Handler handler = new Handler();
+
+// Stops scanning after 10 seconds.
+private static final long SCAN_PERIOD = 10000;
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -292,7 +302,7 @@ public class BluetoothSerial extends CordovaPlugin {
         callbackContext.success(deviceList);
     }
 
-    private void discoverUnpairedDevices(final CallbackContext callbackContext) throws JSONException {
+    private void discoverUnpairedDevicesOLD(final CallbackContext callbackContext) throws JSONException {
 
         LOG.d(TAG, "###discoverUnpairedDevices function started###");
         final CallbackContext ddc = deviceDiscoveredCallback;
@@ -342,6 +352,53 @@ public class BluetoothSerial extends CordovaPlugin {
         LOG.d(TAG, "###discoverUnpairedDevices discovery started 111111###   " + isDiscoveryStarted);
     }
 
+    
+    private void discoverUnpairedDevices(final CallbackContext callbackContext) throws JSONException {
+
+        LOG.d(TAG, "###discoverUnpairedDevicesNEW function started###");
+        final CallbackContext ddc = deviceDiscoveredCallback;
+        if (!scanning) {
+            // Stops scanning after a predefined scan period.
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanning = false;
+                    bluetoothLeScanner.stopScan(leScanCallback);
+                }
+            }, SCAN_PERIOD);
+
+            scanning = true;
+            bluetoothLeScanner.startScan(leScanCallback);
+            LOG.d(TAG, "###bluetoothLeScanner.startScan###");
+        } else {
+            scanning = false;
+            bluetoothLeScanner.stopScan(leScanCallback);
+            LOG.d(TAG, "###bluetoothLeScanner.stopScan###");
+        }
+        
+        private ScanCallback leScanCallback = new ScanCallback() {
+     
+                private JSONArray unpairedDevices = new JSONArray();
+            
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    try {
+                    	JSONObject o = deviceToJSON(result.getDevice());
+                        unpairedDevices.put(o);
+                        if (ddc != null) {
+                            PluginResult res = new PluginResult(PluginResult.Status.OK, o);
+                            res.setKeepCallback(true);
+                            ddc.sendPluginResult(res);
+                        }
+                    } catch (JSONException e) {
+                        // This shouldn't happen, log and ignore
+                        Log.e(TAG, "Problem converting device to JSON", e);
+                    }
+                }
+        };
+    }
+    
+    
     private JSONObject deviceToJSON(BluetoothDevice device) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("name", device.getName());
