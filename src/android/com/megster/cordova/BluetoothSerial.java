@@ -365,14 +365,8 @@ private static final long SCAN_PERIOD = 10000;
         LOG.d(TAG, "###discoverUnpairedDevicesNEW function started###");
         
         if (!scanning) {
-            // Stops scanning after a predefined scan period.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scanning = false;
-                    bluetoothLeScanner.stopScan(leScanCallback);
-                }
-            }, SCAN_PERIOD);
+            scanning = false;
+            bluetoothLeScanner.stopScan(leScanCallback);
 
             scanning = true;
             bluetoothLeScanner.startScan(leScanCallback);
