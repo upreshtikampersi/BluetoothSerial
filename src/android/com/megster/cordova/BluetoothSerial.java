@@ -385,9 +385,6 @@ private static final long SCAN_PERIOD = 10000;
     }
     
      private ScanCallback leScanCallback = new ScanCallback() {
-         
-         LOG.d(TAG, "###leScanCallback###");
-     
                 private JSONArray unpairedDevices = new JSONArray();
                 final CallbackContext ddc = deviceDiscoveredCallback;
             
