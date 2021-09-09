@@ -383,7 +383,7 @@ public class BluetoothSerial extends CordovaPlugin {
         }
     }
     
-     final ScanCallback leScanCallback = new ScanCallback() {
+     private ScanCallback leScanCallback = new ScanCallback() {
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
@@ -396,7 +396,7 @@ public class BluetoothSerial extends CordovaPlugin {
                             res.setKeepCallback(true);
                             ble_ddc.sendPluginResult(res);
                         }
-                        ble_ddc.success(unpairedDevices);
+                        ble_ddc.success(ble_unpairedDevices);
                     } catch (JSONException e) {
                         // This shouldn't happen, log and ignore
                         Log.e(TAG, "Problem converting device to JSON", e);
