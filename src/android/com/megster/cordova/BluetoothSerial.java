@@ -388,12 +388,7 @@ public class BluetoothSerial extends CordovaPlugin {
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
-                    try {
-                        LOG.d(TAG, "###onScanResult###");
-                    } catch (JSONException e) {
-                        // This shouldn't happen, log and ignore
-                        Log.e(TAG, "Problem converting device to JSON", e);
-                    }
+                    LOG.d(TAG, "###onScanResult###");
                 }
          
                 @Override
