@@ -98,9 +98,12 @@ public class BluetoothSerial extends CordovaPlugin {
     private BluetoothLeScanner bluetoothLeScanner;
     private boolean scanning;
     private Handler handler = new Handler();
+    
+    private JSONArray ble_unpairedDevices = new JSONArray();
+    private CallbackContext ble_ddc;
 
-// Stops scanning after 10 seconds.
-private static final long SCAN_PERIOD = 10000;
+    // Stops scanning after 10 seconds.
+    private static final long SCAN_PERIOD = 10000;
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -364,6 +367,8 @@ private static final long SCAN_PERIOD = 10000;
 
         LOG.d(TAG, "###discoverUnpairedDevicesNEW function started###");
         
+        ble_ddc = callbackContext;
+        
         if (!scanning) {
             scanning = false;
             bluetoothLeScanner.stopScan(leScanCallback);
@@ -379,20 +384,19 @@ private static final long SCAN_PERIOD = 10000;
     }
     
      private ScanCallback leScanCallback = new ScanCallback() {
-                private JSONArray unpairedDevices = new JSONArray();
-                final CallbackContext ddc = deviceDiscoveredCallback;
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                     try {
                         LOG.d(TAG, "###onScanResult###");
                     	JSONObject o = deviceToJSON(result.getDevice());
-                        unpairedDevices.put(o);
-                        if (ddc != null) {
+                        ble_unpairedDevices.put(o);
+                        if (ble_ddc != null) {
                             PluginResult res = new PluginResult(PluginResult.Status.OK, o);
                             res.setKeepCallback(true);
-                            ddc.sendPluginResult(res);
+                            ble_ddc.sendPluginResult(res);
                         }
+                        ble_ddc.success(unpairedDevices);
                     } catch (JSONException e) {
                         // This shouldn't happen, log and ignore
                         Log.e(TAG, "Problem converting device to JSON", e);
