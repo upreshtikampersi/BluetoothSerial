@@ -399,7 +399,7 @@ public class BluetoothSerial extends CordovaPlugin {
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
-                    LOG.d(TAG, "###onScanResult###");
+                    LOG.d(TAG, "###onScanResult###  " + callbackType);
                     try {
                                 JSONObject o = deviceToJSON(result.getDevice());
                                 ble_unpairedDevices.put(o);
