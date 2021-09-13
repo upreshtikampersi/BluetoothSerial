@@ -417,11 +417,11 @@ public class BluetoothSerial extends CordovaPlugin {
                                 LOG.d(TAG, "###onBatchScanResults###");
                                 JSONObject o = deviceToJSON(result.getDevice());
                                 ble_unpairedDevices.put(o);
-                                if (ble_ddc != null) {
+                                /*if (ble_ddc != null) {
                                     PluginResult res = new PluginResult(PluginResult.Status.OK, o);
                                     res.setKeepCallback(true);
                                     ble_ddc.sendPluginResult(res);
-                                }
+                                }*/
                             } catch (JSONException e) {
                                 // This shouldn't happen, log and ignore
                                 Log.e(TAG, "Problem converting device to JSON", e);
