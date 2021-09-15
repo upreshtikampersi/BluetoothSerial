@@ -489,6 +489,7 @@ public class BluetoothSerial extends CordovaPlugin {
                 Log.d(TAG, "Heart rate format UINT8.");
             }
             final int heartRate = characteristic.getIntValue(format, 1);
+            LOG.d(TAG, "###heartRate###   " + heartRate);
             ble_ddc.success(heartRate);
         }
     };
