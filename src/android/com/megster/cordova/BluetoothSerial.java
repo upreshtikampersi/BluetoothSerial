@@ -478,10 +478,18 @@ public class BluetoothSerial extends CordovaPlugin {
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            String str = new String(characteristic.getValue(), StandardCharsets.UTF_8);
-            LOG.d(TAG, "###characteristic.getValue()###   " + str);
-            //processData(characteristic.getValue());
-            ble_ddc.success(characteristic.getValue());
+            LOG.d(TAG, "###characteristic.getValue()###");
+            int flag = characteristic.getProperties();
+            int format = -1;
+            if ((flag & 0x01) != 0) {
+                format = BluetoothGattCharacteristic.FORMAT_UINT16;
+                Log.d(TAG, "Heart rate format UINT16.");
+            } else {
+                format = BluetoothGattCharacteristic.FORMAT_UINT8;
+                Log.d(TAG, "Heart rate format UINT8.");
+            }
+            final int heartRate = characteristic.getIntValue(format, 1);
+            ble_ddc.success(heartRate);
         }
     };
     
