@@ -490,7 +490,12 @@ public class BluetoothSerial extends CordovaPlugin {
             }
             final int heartRate = characteristic.getIntValue(format, 1);
             LOG.d(TAG, "###heartRate###   " + heartRate);
-            ble_ddc.success(heartRate);
+            if (ble_ddc != null) {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, heartRate);
+                result.setKeepCallback(true);
+                ble_ddc.sendPluginResult(result);
+            }
+            //ble_ddc.success(heartRate);
         }
     };
     
