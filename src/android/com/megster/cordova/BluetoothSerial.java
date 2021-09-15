@@ -39,6 +39,9 @@ import java.util.ArrayList;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import java.util.UUID;
 
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
@@ -113,6 +116,11 @@ public class BluetoothSerial extends CordovaPlugin {
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
+    
+    UUID HEART_RATE_SERVICE_UUID = convertFromInteger(0x180D);
+    UUID HEART_RATE_MEASUREMENT_CHAR_UUID = convertFromInteger(0x2A37);
+    UUID HEART_RATE_CONTROL_POINT_CHAR_UUID = convertFromInteger(0x2A39);
+    UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = convertFromInteger(0x2902);
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -399,7 +407,14 @@ public class BluetoothSerial extends CordovaPlugin {
         }
     }
     
-     private ScanCallback leScanCallback = new ScanCallback() {
+    public UUID convertFromInteger(int i) {
+        final long MSB = 0x0000000000001000L;
+        final long LSB = 0x800000805f9b34fbL;
+        long value = i & 0xFFFFFFFF;
+        return new UUID(MSB | (value << 32), LSB);
+    }
+    
+    private ScanCallback leScanCallback = new ScanCallback() {
             
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
@@ -440,12 +455,37 @@ public class BluetoothSerial extends CordovaPlugin {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+                gatt.discoverServices();
+                /*PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
                 result.setKeepCallback(true);
-                ble_ddc.sendPluginResult(result);
+                ble_ddc.sendPluginResult(result);*/
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 ble_ddc.error("Could not connect to the device");
             }
+        }
+        
+         @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status){
+            
+            LOG.d(TAG, "###onServicesDiscovered###");
+            BluetoothGattCharacteristic characteristic =
+                    gatt.getService(HEART_RATE_SERVICE_UUID)
+                            .getCharacteristic(HEART_RATE_MEASUREMENT_CHAR_UUID);
+            gatt.setCharacteristicNotification(characteristic, true);
+
+            BluetoothGattDescriptor descriptor =
+                    characteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
+
+            descriptor.setValue(
+                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            gatt.writeDescriptor(descriptor);
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            LOG.d(TAG, "###characteristic.getValue()###   " + characteristic.getValue());
+            //processData(characteristic.getValue());
+            ble_ddc.success(characteristic.getValue());
         }
     };
     
