@@ -36,6 +36,10 @@ import android.bluetooth.le.ScanSettings;
 import android.bluetooth.le.ScanFilter;
 import java.util.ArrayList;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothProfile;
+
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
  */
@@ -432,6 +436,19 @@ public class BluetoothSerial extends CordovaPlugin {
         };
     
     
+    private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+                result.setKeepCallback(true);
+                ble_ddc.sendPluginResult(result);
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                ble_ddc.error("Could not connect to the device");
+            }
+        }
+    };
+    
     private JSONObject deviceToJSON(BluetoothDevice device) throws JSONException {
         JSONObject json = new JSONObject();
         json.put("name", device.getName());
@@ -444,6 +461,19 @@ public class BluetoothSerial extends CordovaPlugin {
     }
 
     private void connect(CordovaArgs args, boolean secure, CallbackContext callbackContext) throws JSONException {
+        String macAddress = args.getString(0);
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(macAddress);
+        ble_ddc = callbackContext;
+
+        if (device != null) {
+            connectCallback = callbackContext;
+            BluetoothGatt bluetoothGatt = device.connectGatt(cordova.getActivity(), false, bluetoothGattCallback);
+        } else {
+            ble_ddc.error("Could not connect to " + macAddress);
+        }
+    }
+    
+    private void connectOLD(CordovaArgs args, boolean secure, CallbackContext callbackContext) throws JSONException {
         String macAddress = args.getString(0);
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(macAddress);
 
