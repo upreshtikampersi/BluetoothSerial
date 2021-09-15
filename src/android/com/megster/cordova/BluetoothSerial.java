@@ -114,6 +114,7 @@ public class BluetoothSerial extends CordovaPlugin {
     
     private JSONArray ble_unpairedDevices = new JSONArray();
     private CallbackContext ble_ddc;
+    private CallbackContext ble_read_ddc;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
@@ -204,15 +205,15 @@ public class BluetoothSerial extends CordovaPlugin {
 
         } else if (action.equals(SUBSCRIBE_RAW)) {
 
-            rawDataAvailableCallback = callbackContext;
+            ble_read_ddc = callbackContext;
 
-            PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+            /*PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            callbackContext.sendPluginResult(result);*/
 
         } else if (action.equals(UNSUBSCRIBE_RAW)) {
 
-            rawDataAvailableCallback = null;
+            ble_read_ddc = null;
 
             callbackContext.success();
 
@@ -452,6 +453,14 @@ public class BluetoothSerial extends CordovaPlugin {
         };
     
     
+   private void sendHeartRateChange(String heartRate) {
+        if (this.ble_read_ddc != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, heartRate);
+            result.setKeepCallback(true);
+            this.ble_read_ddc.sendPluginResult(result);
+        }
+    }
+    
     private final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -490,12 +499,13 @@ public class BluetoothSerial extends CordovaPlugin {
             }
             final int heartRate = characteristic.getIntValue(format, 1);
             LOG.d(TAG, "###heartRate###   " + heartRate);
-            if (ble_ddc != null) {
+            /*if (ble_ddc != null) {
                 PluginResult result = new PluginResult(PluginResult.Status.OK, heartRate);
                 result.setKeepCallback(true);
                 ble_ddc.sendPluginResult(result);
-            }
+            }*/
             //ble_ddc.success(heartRate);
+            sendHeartRateChange(heartRate);
         }
     };
     
