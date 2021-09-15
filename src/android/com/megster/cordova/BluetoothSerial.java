@@ -42,6 +42,7 @@ import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import java.util.UUID;
+import java.nio.charset.StandardCharsets;
 
 /**
  * PhoneGap Plugin for Serial Communication over Bluetooth
@@ -468,22 +469,17 @@ public class BluetoothSerial extends CordovaPlugin {
         public void onServicesDiscovered(BluetoothGatt gatt, int status){
             
             LOG.d(TAG, "###onServicesDiscovered###");
-            BluetoothGattCharacteristic characteristic =
-                    gatt.getService(HEART_RATE_SERVICE_UUID)
-                            .getCharacteristic(HEART_RATE_MEASUREMENT_CHAR_UUID);
+            BluetoothGattCharacteristic characteristic = gatt.getService(HEART_RATE_SERVICE_UUID).getCharacteristic(HEART_RATE_MEASUREMENT_CHAR_UUID);
             gatt.setCharacteristicNotification(characteristic, true);
-
-            BluetoothGattDescriptor descriptor =
-                    characteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
-
-            descriptor.setValue(
-                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
+            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
             gatt.writeDescriptor(descriptor);
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            LOG.d(TAG, "###characteristic.getValue()###   " + characteristic.getValue());
+            String str = new String(characteristic.getValue(), StandardCharsets.UTF_8);
+            LOG.d(TAG, "###characteristic.getValue()###   " + str);
             //processData(characteristic.getValue());
             ble_ddc.success(characteristic.getValue());
         }
