@@ -453,7 +453,7 @@ public class BluetoothSerial extends CordovaPlugin {
         };
     
     
-   private void sendHeartRateChange(String heartRate) {
+   private void sendHeartRateChange(int heartRate) {
         if (this.ble_read_ddc != null) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, heartRate);
             result.setKeepCallback(true);
