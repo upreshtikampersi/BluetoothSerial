@@ -28,6 +28,8 @@
                 <param name="android-package" value="com.megster.cordova.BluetoothSerial"/>
             </feature>
             <preference name="android-minSdkVersion" value="28" />
+            <preference name="android-targetSdkVersion" value="28" />
+            <preference name="android-compileSdkVersion" value="31" />
         </config-file>
 
         <source-file src="src/android/com/megster/cordova/BluetoothSerial.java"
