@@ -1,8 +1,33 @@
 {
-  "name": "cordova-plugin-bluetooth-serial",
-  "version": "0.4.7",
-  "description": "Bluetooth Serial Communication Plugin",
-  "main": "./www/bluetoothSerial.js",
+  "_from": "git+https://github.com/upreshtikampersi/BluetoothSerial.git",
+  "_id": "cordova-plugin-bluetooth-serial@0.4.7",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-bluetooth-serial",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/upreshtikampersi/BluetoothSerial.git",
+    "rawSpec": "https://github.com/upreshtikampersi/BluetoothSerial.git",
+    "saveSpec": "git+https://github.com/upreshtikampersi/BluetoothSerial.git",
+    "fetchSpec": "https://github.com/upreshtikampersi/BluetoothSerial.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/upreshtikampersi/BluetoothSerial.git#73ca060230b348dd673619d26a3591bdf82c4ba5",
+  "_spec": "https://github.com/upreshtikampersi/BluetoothSerial.git",
+  "_where": "C:\\Users\\upres\\Desktop\\DFDFT95\\DFDFT95Plugin",
+  "author": {
+    "name": "Upresh Tikam",
+    "email": "upreshtikam@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/upreshtikampersi/BluetoothSerial/issues"
+  },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-bluetooth-serial",
     "platforms": [
@@ -11,10 +36,9 @@
       "wp8"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/akshaypuri1989/BluetoothSerial.git"
-  },
+  "deprecated": false,
+  "description": "Bluetooth Serial Communication Plugin",
+  "homepage": "https://github.com/upreshtikampersi/BluetoothSerial#readme",
   "keywords": [
     "cordova",
     "bluetooth",
@@ -23,10 +47,12 @@
     "arduino",
     "ecosystem:cordova"
   ],
-  "author": "Don Coleman <don.coleman@gmail.com>",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/akshaypuri1989/BluetoothSerial/issues"
+  "main": "./www/bluetoothSerial.js",
+  "name": "cordova-plugin-bluetooth-serial",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upreshtikampersi/BluetoothSerial.git"
   },
-  "homepage": "https://github.com/akshaypuri1989/BluetoothSerial#readme"
+  "version": "0.4.7"
 }
