@@ -40,6 +40,8 @@
             target-dir="src/com/blessedandroid"/>
         <source-file src="src/android/com/blessedandroid/GlucoseMeasurement.java"
             target-dir="src/com/blessedandroid"/>
+        <source-file src="src/android/com/blessedandroid/GlucoseMeasurementUnit.java"
+            target-dir="src/com/blessedandroid"/>
         <source-file src="src/android/com/blessedandroid/HeartRateMeasurement.java"
             target-dir="src/com/blessedandroid"/>
         <source-file src="src/android/com/blessedandroid/PulseOximeterContinuousMeasurement.java"
