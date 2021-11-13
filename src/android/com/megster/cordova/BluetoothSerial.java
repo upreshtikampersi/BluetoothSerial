@@ -60,7 +60,7 @@ import com.blessedandroid.BluetoothHandler;
 import com.blessedandroid.GlucoseMeasurement;
 import com.blessedandroid.GlucoseMeasurementUnit;
 import com.blessedandroid.HeartRateMeasurement;
-import com.blessedandroid.MainActivity;
+
 import com.blessedandroid.PulseOximeterContinuousMeasurement;
 import com.blessedandroid.PulseOximeterSpotMeasurement;
 import com.blessedandroid.TemperatureMeasurement;
