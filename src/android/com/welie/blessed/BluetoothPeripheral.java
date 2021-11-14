@@ -434,7 +434,7 @@ public class BluetoothPeripheral {
             });
         }
 
-        @Override
+        //@Override
         public void onServiceChanged(BluetoothGatt gatt) {
             Logger.d(TAG, "onServiceChangedCalled");
 

@@ -952,23 +952,25 @@ public class BluetoothSerial extends CordovaPlugin {
 
     private String[] getRequiredPermissions() {
         int targetSdkVersion = cordova.getActivity().getApplicationInfo().targetSdkVersion;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && targetSdkVersion >= Build.VERSION_CODES.S) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && targetSdkVersion >= Build.VERSION_CODES.S) {
             return new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT};
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && targetSdkVersion >= Build.VERSION_CODES.Q) {
             return new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-        } else return new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+        } else*/ return new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
     }
 
     private void permissionsGranted() {
         // Check if Location services are on because they are required to make scanning work for SDK < 31
-        int targetSdkVersion = cordova.getActivity().getApplicationInfo().targetSdkVersion;
+        /*int targetSdkVersion = cordova.getActivity().getApplicationInfo().targetSdkVersion;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S && targetSdkVersion < Build.VERSION_CODES.S) {
             if (checkLocationServices()) {
                 initBluetoothHandler();
             }
         } else {
             initBluetoothHandler();
-        }
+        }*/
+
+        initBluetoothHandler();
     }
 
     private boolean areLocationServicesEnabled() {

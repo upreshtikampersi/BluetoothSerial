@@ -872,7 +872,7 @@ public class BluetoothCentralManager {
 
     private boolean permissionsGranted() {
         final int targetSdkVersion = context.getApplicationInfo().targetSdkVersion;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && targetSdkVersion >= Build.VERSION_CODES.S) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && targetSdkVersion >= Build.VERSION_CODES.S) {
             if (context.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 throw new SecurityException("app does not have BLUETOOTH_SCAN permission, cannot start scan");
             }
@@ -884,7 +884,7 @@ public class BluetoothCentralManager {
             if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 throw new SecurityException("app does not have ACCESS_FINE_LOCATION permission, cannot start scan");
             } else return true;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        } else*/ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 throw new SecurityException("app does not have ACCESS_COARSE_LOCATION permission, cannot start scan");
             } else return true;
